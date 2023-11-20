@@ -4,7 +4,7 @@ This python script is used to update DNS records on Cloudflare based on your pub
 
 No need for a static IP address!
 
-## Copy config_example.json -> config.json
+## Copy `config_example.json` -> `config.json`
 
 ```json
 {
@@ -20,9 +20,9 @@ No need for a static IP address!
 }
 ```
 
---* **zone_identifier** - Click on your domain on the Cloudflare Dashboard. The Zone ID is on the right sidebar.
---* **auth_email** - The one you use to login to Cloudflare.
---* **auth_key** - The global API key you get from within your Cloudflare Profile.
---* **ttl** - TTL (Time to live) in seconds.
---* **proxy** - Whether the DNS record is proxied through Cloudflare.
---* **records_to_sync** - An array of A-Records that should be updated according to your IP.
+- **zone_identifier** - Click on your domain on the Cloudflare Dashboard. The Zone ID is on the right sidebar.
+- **auth_email** - The one you use to login to Cloudflare.
+- **auth_key** - The global API key you get from within your Cloudflare Profile.
+- **ttl** - TTL (Time to live) in seconds.
+- **proxy** - Whether the DNS record is proxied through Cloudflare.
+- **records_to_sync** - An array of A-Records that should be updated according to your IP.
