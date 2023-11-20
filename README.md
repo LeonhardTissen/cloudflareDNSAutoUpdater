@@ -4,7 +4,7 @@ This python script is used to update DNS records on Cloudflare based on your pub
 
 No need for a static IP address!
 
-## Copy `config_example.json` -> `config.json`
+## Copy _config_example.json_ ➙ _config.json_
 
 ```json
 {
