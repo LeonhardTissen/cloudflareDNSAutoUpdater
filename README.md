@@ -1,37 +1,28 @@
-# Cloudflare Dynamic DNS IP Updater
-<img alt="GitHub" src="https://img.shields.io/github/license/K0p1-Git/cloudflare-ddns-updater?color=black"> <img alt="GitHub last commit (branch)" src="https://img.shields.io/github/last-commit/K0p1-Git/cloudflare-ddns-updater/main"> <img alt="GitHub contributors" src="https://img.shields.io/github/contributors/K0p1-Git/cloudflare-ddns-updater">
+# Cloudflare DNS Auto Updater
 
-This script is used to update Dynamic DNS (DDNS) service based on Cloudflare! Access your home network remotely via a custom domain name without a static IP! Written in pure BASH.
+This python script is used to update DNS records on Cloudflare based on your public IP periodically.
 
-## Support Me
-[![Donate Via Paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.me/Jasonkkf)
+No need for a static IP address!
 
-## Installation
+## Copy config_example.json -> config.json
 
-```bash
-git clone https://github.com/K0p1-Git/cloudflare-ddns-updater.git
+```json
+{
+	"zone_identifier": "00000000000000000000000000000000",
+	"auth_email": "johndoe@example.com",
+	"auth_key": "0000000000000000000000000000000000000",
+	"ttl": 3600,
+	"proxy": true,
+	"records_to_sync": [
+		"example.com",
+		"subdomain.example.com"
+	]
+}
 ```
 
-## Usage
-This script is used with crontab. Specify the frequency of execution through crontab.
-
-```bash
-# ┌───────────── minute (0 - 59)
-# │ ┌───────────── hour (0 - 23)
-# │ │ ┌───────────── day of the month (1 - 31)
-# │ │ │ ┌───────────── month (1 - 12)
-# │ │ │ │ ┌───────────── day of the week (0 - 6) (Sunday to Saturday 7 is also Sunday on some systems)
-# │ │ │ │ │ ┌───────────── command to issue                               
-# │ │ │ │ │ │
-# │ │ │ │ │ │
-# * * * * * /bin/bash {Location of the script}
-```
-
-## Contributing
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-## Reference
-This script was made with reference from [Keld Norman](https://www.youtube.com/watch?v=vSIBkH7sxos) video.
-
-## License
-[MIT](https://github.com/K0p1-Git/cloudflare-ddns-updater/blob/main/LICENSE)
+--* **zone_identifier** - Click on your domain on the Cloudflare Dashboard. The Zone ID is on the right sidebar.
+--* **auth_email** - The one you use to login to Cloudflare.
+--* **auth_key** - The global API key you get from within your Cloudflare Profile.
+--* **ttl** - TTL (Time to live) in seconds.
+--* **proxy** - Whether the DNS record is proxied through Cloudflare.
+--* **records_to_sync** - An array of A-Records that should be updated according to your IP.
