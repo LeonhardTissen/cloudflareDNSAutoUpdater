@@ -1,0 +1,11 @@
+{
+	"zone_identifier": "00000000000000000000000000000000",
+	"auth_email": "johndoe@example.com",
+	"auth_key": "0000000000000000000000000000000000000",
+	"ttl": 3600,
+	"proxy": true,
+	"records_to_sync": [
+		"example.com",
+		"subdomain.example.com"
+	]
+}
