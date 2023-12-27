@@ -52,25 +52,35 @@ def update_record(record_name, record_identifier, ip):
 
 	url = f"https://api.cloudflare.com/client/v4/zones/{zone_identifier}/dns_records/{record_identifier}"
 
-	# Make the PATCH request to update the DNS record
-	response = requests.patch(url, headers=authentication_headers, json=dns_update_payload)
+	try:
+		# Make the PATCH request to update the DNS record
+		response = requests.patch(url, headers=authentication_headers, json=dns_update_payload)
 
-	# Check the response
-	if response.status_code == 200:
-		print(f"Update successful! {record_name} now points to {ip}.")
-	else:
-		print(f"Update failed with status code {response.status_code}")
-		print(response.text)
-
+		# Check the response
+		if response.status_code == 200:
+			print(f"Update successful! {record_name} now points to {ip}.")
+		else:
+			print(f"Update failed with status code {response.status_code}")
+			print(response.text)
+	except Exception as e:
+		print(f"Exception: {e}")
 
 def get_public_ip():
-	response = requests.get('https://cloudflare.com/cdn-cgi/trace')
-	if response.status_code != 200:
-		# In the case that Cloudflare failed to return an IP.
-		# Attempt to get the IP from other websites.
-		response = requests.get('https://api.ipify.org')
+	try:
+		response = requests.get('https://cloudflare.com/cdn-cgi/trace')
 		if response.status_code != 200:
-			response = requests.get('https://ipv4.icanhazip.com')
+			# In the case that Cloudflare failed to return an IP.
+			# Attempt to get the IP from other websites.
+			response = requests.get('https://api.ipify.org')
+			if response.status_code != 200:
+				response = requests.get('https://ipv4.icanhazip.com')
+
+				if response.status_code != 200:
+					print(f"None of the providers returned an IP.")
+					return None
+	except Exception as e:
+		print(f"Exception: {e}")
+		return None
 	
 	# Extract just the IP from the response.
 	ip_line = re.search(r'^ip=(%s)$' % IPV4_REGEX, response.text, flags=re.MULTILINE)
@@ -95,6 +105,13 @@ previous_public_ip = None
 
 while True:
 	public_ip = get_public_ip()
+
+	# If we failed to get the public IP, try again in 10 seconds.
+	if public_ip is None:
+		print("Failed to get public IP. Trying again in 10 seconds...")
+		time.sleep(10)
+		continue
+
 	ip_has_changed = previous_public_ip != public_ip
 
 	print(f"Your IP is {public_ip}.")
